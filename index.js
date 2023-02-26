@@ -20,3 +20,15 @@
 //     блоки з короткою іфною про post - в ряд по 5 .
 //     post-details.html - блок з інфою про пост зверху. Коментарі - по 4 в ряд.
 //     Всі елементи котрі характеризують users, posts, comments візуалізувати, так, щоб було видно що це блоки (дати фон. марджини і тд)
+
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject({ status: res.status, statusText: res.statusText });
+        }
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log('Error, with message:', err.statusText));
+
