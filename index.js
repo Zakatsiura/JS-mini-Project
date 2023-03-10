@@ -47,20 +47,19 @@ const userDetails = document.getElementById("user-details");
 const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('id');
 
+if (userId) {
 
-    if (userId) {
+    fetch(`http://jsonplaceholder.typicode.com/users/${userId}`)
+        .then((response) => response.json())
+        .then((user) => {
+            const userTable = document.createElement("table");
 
-        fetch(`http://jsonplaceholder.typicode.com/users/${userId}`)
-            .then((response) => response.json())
-            .then((user) => {
-                const userTable = document.createElement("table");
-
-                const tableRow = (key, value) => {
-                    const row = document.createElement("tr");
-                    const keyCell = document.createElement("td");
-                    keyCell.textContent = `${key} : `;
-                    row.appendChild(keyCell);
-                    const valueCell = document.createElement("td");
+            const tableRow = (key, value) => {
+                const row = document.createElement("tr");
+                const keyCell = document.createElement("td");
+                keyCell.textContent = `${key} : `;
+                row.appendChild(keyCell);
+                const valueCell = document.createElement("td");
                     if (typeof value === "object" && value !== null) {
                         valueCell.appendChild(table(value));
                     } else {
@@ -69,7 +68,6 @@ const userId = urlParams.get('id');
                     row.appendChild(valueCell);
                     return row;
                 };
-
                 const table = (object) => {
                     const table = document.createElement("table");
                     Object.entries(object).forEach(([key, value]) => {
@@ -77,16 +75,14 @@ const userId = urlParams.get('id');
                     });
                     return table;
                 };
-
                 Object.entries(user).forEach(([key, value]) => {
                     const row = tableRow(key, value);
                     userTable.appendChild(row);
                 });
-
                 userDetails.appendChild(userTable);
             })
-            .catch((error) => console.error(error));
-    }
+        .catch((error) => console.error(error));
+}
 
 
 
@@ -101,7 +97,7 @@ function showUserPosts() {
                 const postDiv = document.createElement('div');
                 const postTitleDiv = document.createElement('div');
                 const postDetailsBtn = document.createElement('button');
-                postTitleDiv.innerHTML = `<p>${post.title}</p>`;
+                postTitleDiv.innerHTML = `<p><strong>${post.title.toUpperCase()}</strong></p>`;
                 postDetailsBtn.innerHTML = 'View post details';
                 postDetailsBtn.classList.add('btn-post-details')
                 postDetailsBtn.onclick = () => {
@@ -120,7 +116,7 @@ fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
     .then(response => response.json())
     .then(post => {
         const postDiv = document.getElementById('post-details');
-        postDiv.innerHTML = `<h2>${post.title}</h2><p>ID: ${post.id}</p><p>${post.body}</p>`;
+        postDiv.innerHTML = `<h2>${post.title.toUpperCase()}</h2><p>ID: ${post.id}</p><p>${post.body}</p>`;
     });
 
 fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
@@ -129,7 +125,7 @@ fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
         const commentsList = document.getElementById('comments-list');
         comments.forEach(comment => {
             const commentItem = document.createElement('li');
-            commentItem.innerHTML = `<p><strong>${comment.name}</strong></p><p>${comment.body}</p>`;
+            commentItem.innerHTML = `<p><strong><i>${comment.name}</i></strong></p><p>${comment.body}</p>`;
             commentsList.appendChild(commentItem);
         });
     });

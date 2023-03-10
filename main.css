@@ -80,8 +80,8 @@ h3 {
 }
 #comments-list {
     display: grid;
-    padding: 30px;
-    grid-template-columns: repeat(4, 5fr);
+    padding: 10px;
+    grid-template-columns: repeat(4, 15fr);
     color: #092aef;
     background-color: #ece6e6;
 }
