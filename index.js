@@ -30,8 +30,8 @@ fetch('https://jsonplaceholder.typicode.com/users')
         const usersDiv = document.getElementById('users');
 
         users.forEach(user => {
-            // Створюємо блок для користувача
             const userDiv = document.createElement('div');
+            userDiv.classList.add('user-block');
             userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><button onclick="goToDetails(${user.id})">Детальніше</button>`;
             usersDiv.appendChild(userDiv);
         });
@@ -49,6 +49,7 @@ const userId = urlParams.get('id');
 
 
     if (userId) {
+
         fetch(`http://jsonplaceholder.typicode.com/users/${userId}`)
             .then((response) => response.json())
             .then((user) => {
@@ -88,14 +89,6 @@ const userId = urlParams.get('id');
     }
 
 
-
-
-fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
-    .then(response => response.json())
-    .then(user => {
-        const userDiv = document.getElementById('user-details');
-        userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><p>Email: ${user.email}</p><p>Phone: ${user.phone}</p>`;
-    });
 
 function showUserPosts() {
     const userPostsDiv = document.getElementById('user-posts');
