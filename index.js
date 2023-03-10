@@ -32,7 +32,7 @@ fetch('https://jsonplaceholder.typicode.com/users')
         users.forEach(user => {
             const userDiv = document.createElement('div');
             userDiv.classList.add('user-block');
-            userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><button onclick="goToDetails(${user.id})">Детальніше</button>`;
+            userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><button class="btn-more" onclick="goToDetails(${user.id})">get more details</button>`;
             usersDiv.appendChild(userDiv);
         });
     })
@@ -103,6 +103,7 @@ function showUserPosts() {
                 const postDetailsBtn = document.createElement('button');
                 postTitleDiv.innerHTML = `<p>${post.title}</p>`;
                 postDetailsBtn.innerHTML = 'View post details';
+                postDetailsBtn.classList.add('btn-post-details')
                 postDetailsBtn.onclick = () => {
                     window.location.href = `post-details.html?id=${post.id}`;
                 };
