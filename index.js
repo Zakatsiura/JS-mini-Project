@@ -21,14 +21,121 @@
 //     post-details.html - блок з інфою про пост зверху. Коментарі - по 4 в ряд.
 //     Всі елементи котрі характеризують users, posts, comments візуалізувати, так, щоб було видно що це блоки (дати фон. марджини і тд)
 
-fetch('https://jsonplaceholder.typicode.com/users')
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return Promise.reject({ status: res.status, statusText: res.statusText });
-        }
-    })
-    .then(res => console.log(res))
-    .catch(err => console.log('Error, with message:', err.statusText));
 
+
+
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(users => {
+        const usersDiv = document.getElementById('users');
+
+        users.forEach(user => {
+            // Створюємо блок для користувача
+            const userDiv = document.createElement('div');
+            userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><button onclick="goToDetails(${user.id})">Детальніше</button>`;
+            usersDiv.appendChild(userDiv);
+        });
+    })
+    .catch(error => console.error(error));
+
+
+function goToDetails(userId) {
+    window.location.href = `user-details.html?id=${userId}`;
+}
+
+const userDetails = document.getElementById("user-details");
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get('id');
+
+
+    if (userId) {
+        fetch(`http://jsonplaceholder.typicode.com/users/${userId}`)
+            .then((response) => response.json())
+            .then((user) => {
+                const userTable = document.createElement("table");
+
+                const tableRow = (key, value) => {
+                    const row = document.createElement("tr");
+                    const keyCell = document.createElement("td");
+                    keyCell.textContent = `${key} : `;
+                    row.appendChild(keyCell);
+                    const valueCell = document.createElement("td");
+                    if (typeof value === "object" && value !== null) {
+                        valueCell.appendChild(table(value));
+                    } else {
+                        valueCell.textContent = value;
+                    }
+                    row.appendChild(valueCell);
+                    return row;
+                };
+
+                const table = (object) => {
+                    const table = document.createElement("table");
+                    Object.entries(object).forEach(([key, value]) => {
+                        table.appendChild(tableRow(key, value));
+                    });
+                    return table;
+                };
+
+                Object.entries(user).forEach(([key, value]) => {
+                    const row = tableRow(key, value);
+                    userTable.appendChild(row);
+                });
+
+                userDetails.appendChild(userTable);
+            })
+            .catch((error) => console.error(error));
+    }
+
+
+
+
+fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+    .then(response => response.json())
+    .then(user => {
+        const userDiv = document.getElementById('user-details');
+        userDiv.innerHTML = `<h2>${user.name}</h2><p>ID: ${user.id}</p><p>Email: ${user.email}</p><p>Phone: ${user.phone}</p>`;
+    });
+
+function showUserPosts() {
+    const userPostsDiv = document.getElementById('user-posts');
+    userPostsDiv.innerHTML = '';
+
+    fetch(`https://jsonplaceholder.typicode.com/users/${userId}/posts`)
+        .then(response => response.json())
+        .then(posts => {
+            posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                const postTitleDiv = document.createElement('div');
+                const postDetailsBtn = document.createElement('button');
+                postTitleDiv.innerHTML = `<p>${post.title}</p>`;
+                postDetailsBtn.innerHTML = 'View post details';
+                postDetailsBtn.onclick = () => {
+                    window.location.href = `post-details.html?id=${post.id}`;
+                };
+                postDiv.appendChild(postTitleDiv);
+                postDiv.appendChild(postDetailsBtn);
+                userPostsDiv.appendChild(postDiv);
+            });
+        });
+}
+
+const postId = urlParams.get('id');
+
+fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+    .then(response => response.json())
+    .then(post => {
+        const postDiv = document.getElementById('post-details');
+        postDiv.innerHTML = `<h2>${post.title}</h2><p>ID: ${post.id}</p><p>${post.body}</p>`;
+    });
+
+fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+    .then(response => response.json())
+    .then(comments => {
+        const commentsList = document.getElementById('comments-list');
+        comments.forEach(comment => {
+            const commentItem = document.createElement('li');
+            commentItem.innerHTML = `<p><strong>${comment.name}</strong></p><p>${comment.body}</p>`;
+            commentsList.appendChild(commentItem);
+        });
+    });
