@@ -41,7 +41,7 @@ h1 {
 #user-posts {
     display: grid;
     text-align: center;
-    grid-template-columns: repeat(2, 5fr);
+    grid-template-columns: repeat(5, 5fr);
     color: #092aef;
     grid-gap: 50px;
 }
@@ -68,7 +68,10 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
 }
-
+.post-block {
+    display: grid;
+    align-items: end;
+}
 #post-details {
     text-align: center;
     color: #031898;

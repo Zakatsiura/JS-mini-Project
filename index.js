@@ -95,9 +95,10 @@ function showUserPosts() {
         .then(posts => {
             posts.forEach(post => {
                 const postDiv = document.createElement('div');
+                postDiv.classList.add('post-block');
                 const postTitleDiv = document.createElement('div');
                 const postDetailsBtn = document.createElement('button');
-                postTitleDiv.innerHTML = `<p><strong>${post.title.toUpperCase()}</strong></p>`;
+                postTitleDiv.innerHTML = `<p>${post.title.toUpperCase()}</p>`;
                 postDetailsBtn.innerHTML = 'View post details';
                 postDetailsBtn.classList.add('btn-post-details')
                 postDetailsBtn.onclick = () => {
@@ -116,7 +117,7 @@ fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
     .then(response => response.json())
     .then(post => {
         const postDiv = document.getElementById('post-details');
-        postDiv.innerHTML = `<h2>${post.title.toUpperCase()}</h2><p>ID: ${post.id}</p><p>${post.body}</p>`;
+        postDiv.innerHTML = `<h2>${post.title.toUpperCase()}</h2><p>Post ID: ${post.id}</p><p>${post.body}</p>`;
     });
 
 fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
@@ -125,7 +126,7 @@ fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
         const commentsList = document.getElementById('comments-list');
         comments.forEach(comment => {
             const commentItem = document.createElement('li');
-            commentItem.innerHTML = `<p><strong><i>${comment.name}</i></strong></p><p>${comment.body}</p>`;
+            commentItem.innerHTML = `<p><strong>Title: ${comment.name}</strong></p><p><i>Comment ID: ${comment.id}</p><p>E-mail: ${comment.email}</i></p><p>${comment.body}</p>`;
             commentsList.appendChild(commentItem);
         });
     });
