@@ -44,6 +44,7 @@ h1 {
     grid-template-columns: repeat(5, 5fr);
     color: #092aef;
     grid-gap: 50px;
+    padding: 20px;
 }
 
 #user-posts-btn {
@@ -85,7 +86,6 @@ h3 {
     padding: 10px;
     grid-template-columns: repeat(4, 5fr);
     color: #092aef;
-    background-color: #ece6e6;
 }
 li {
     padding: 10px;
